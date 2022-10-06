@@ -2,57 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectD
+namespace Platformer3D.Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : Controller
     {
-
-        #region Components
-        BoxCollider2D m_boxCollider;
-        #endregion
 
         #region State Variables
         [SerializeField] PlayerData m_playerData;
-        PlayerStateMachine m_stateMachine;
+        StateMachine m_stateMachine;
+
         PlayerIdleState m_idleState;
-        PlayerRunState m_runState;
-        PlayerSprintState m_sprintState;
-        PlayerRollState m_rollState;
+        PlayerLocomotionState m_locomotionState;
+        PlayerFallState m_fallState;
+
         #endregion
 
-        #region Other Variables
-        Vector2 m_workSpace;
-        Vector2 m_currentSpeed;
-        int m_facingDirection;
-        #endregion
-
-        AnimatorHandler m_animatorHandler;
-        InputHandler m_inputHandler;
-
-        Rigidbody m_rigidbody;
-
-        Transform m_cameraObject;
+        PlayerAnimatorHandler m_animatorHandler;
+        PlayerInputHandler m_inputHandler;
 
         #region Unity Callback Functions
         private void Awake()
         {
-            m_cameraObject = Camera.main.transform;
-            m_rigidbody = GetComponent<Rigidbody>();
-            
-            m_animatorHandler = GetComponentInChildren<AnimatorHandler>();
-            m_inputHandler = GetComponent<InputHandler>();
 
-            m_stateMachine = new PlayerStateMachine();
+            m_animatorHandler = GetComponentInChildren<PlayerAnimatorHandler>();
+            m_inputHandler = GetComponent<PlayerInputHandler>();
+            m_characterController = GetComponent<CharacterController>();
 
-            m_idleState = new PlayerIdleState(this, m_stateMachine, m_playerData, ANIMATIONS.LOCOMOTION);
-            m_runState = new PlayerRunState(this, m_stateMachine, m_playerData, ANIMATIONS.LOCOMOTION);
-            m_sprintState = new PlayerSprintState(this, m_stateMachine, m_playerData, ANIMATIONS.LOCOMOTION);
-            m_rollState = new PlayerRollState(this, m_stateMachine, m_playerData, ANIMATIONS.ROLLING);
+            m_stateMachine = new StateMachine();
+
+            m_idleState = new PlayerIdleState(this, m_stateMachine, ANIMATIONS.LOCOMOTION);
+            m_locomotionState = new PlayerLocomotionState(this, m_stateMachine, ANIMATIONS.LOCOMOTION);
+            m_fallState = new PlayerFallState(this, m_stateMachine, ANIMATIONS.FALLING);
         }
         private void Start()
         {
             m_stateMachine.Initialize(m_idleState);
-            m_facingDirection = 1;
         }
 
         private void Update()
@@ -66,50 +50,28 @@ namespace ProjectD
         }
         #endregion
 
-        #region Getters and Setters
-        public AnimatorHandler AnimatorHandler
-        {
-            get { return m_animatorHandler; }
-        }
-        public InputHandler InputHandler
+        #region Accessors
+
+        public PlayerIdleState IdleState { get { return m_idleState; } }
+        public PlayerLocomotionState LocomotionState { get { return m_locomotionState; } }
+        public PlayerFallState PlayerFallState { get { return m_fallState; } }
+
+        public PlayerInputHandler InputHandler
         {
             get { return m_inputHandler; }
         }
-        public PlayerIdleState IdleState
+
+        public PlayerData PlayerData
         {
-            get { return m_idleState; }
-            set {}
-        }
-        public PlayerRunState RunState
-        {
-            get { return m_runState; }
-            private set {}
-        }
-        public PlayerSprintState SprintState
-        {
-            get { return m_sprintState; }
-            private set { }
-        }
-        public PlayerRollState RollState
-        {
-            get { return m_rollState; }
-            private set { }
+            get { return m_playerData; }
         }
 
-        public Vector3 Velocity
+        public PlayerAnimatorHandler AnimatorHandler
         {
-            get { return m_rigidbody.velocity; }
-            set { m_rigidbody.velocity = value;}
-        }
-
-        public Transform CameraTransform
-        {
-            get { return m_cameraObject; }
-            set { }
+            get { return m_animatorHandler; }
         }
 
         #endregion
-
     }
 }
 

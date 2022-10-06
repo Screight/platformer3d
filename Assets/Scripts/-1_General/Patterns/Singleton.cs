@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectD
+namespace Platformer3D
 {
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {

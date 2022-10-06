@@ -2,39 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectD
+namespace Platformer3D.Player
 {
-    public class PlayerGroundedState : PlayerState
+    public class PlayerGroundState : GroundState
     {
-        protected float m_inputX;
-        protected bool m_hasTransitioned = false;
-        public PlayerGroundedState(PlayerController p_player, PlayerStateMachine p_stateMachine, PlayerData p_playerData, string p_name, ANIMATIONS p_animation) : base(p_player, p_stateMachine, p_playerData, p_name, p_animation)
+        PlayerController m_controller;
+        public PlayerGroundState(PlayerController p_controller, StateMachine p_stateMachine, string p_name, ANIMATIONS p_animation) : base(p_stateMachine, p_controller, p_name, p_animation)
         {
+            m_controller = p_controller;
         }
 
-        public override void DoChecks()
+        protected override void HandleTransitionToAir()
         {
-            base.DoChecks();
-        }
-
-        public override void Enter()
-        {
-            base.Enter();
-            m_hasTransitioned = false;
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-        }
-        public override void LogicUpdate()
-        {
-            base.LogicUpdate();
-        }
-
-        public override void PhysicsUpdate()
-        {
-            base.PhysicsUpdate();
+            m_stateMachine.ChangeState(m_controller.PlayerFallState);
         }
     }
 
