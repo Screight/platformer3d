@@ -6,29 +6,31 @@ namespace Platformer3D.Player
 {
     public class PlayerIdleState : PlayerGroundState
     {
-        PlayerController m_controller;
         public PlayerIdleState(PlayerController p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_controller, p_stateMachine, "Idle State", p_animation)
         {
-            m_controller = p_controller;
         }
 
-        public override void Enter()
+        public override void Enter(bool p_changeToDefaultAnim)
         {
-            base.Enter();
+            base.Enter(p_changeToDefaultAnim);
+            if (p_changeToDefaultAnim)
+            {
+                PlayerController.AnimatorHandler.PlayTargetAnimation(ANIMATIONS.LOCOMOTION);
+            }
         }
 
         public override void LogicUpdate()
         {
 
-            if (m_controller.AnimatorHandler.Movement != 0)
+            if (PlayerController.AnimatorHandler.Movement != 0)
             {
-                m_controller.AnimatorHandler.Movement = 0;
+                PlayerController.AnimatorHandler.Movement = 0;
             }
 
             base.LogicUpdate();
-            if (m_controller.InputHandler.MovementInput.sqrMagnitude > 0.01f)
+            if (PlayerInputHandler.Instance.MovementInput.sqrMagnitude > 0.01f)
             {
-                m_stateMachine.ChangeState(m_controller.LocomotionState);
+                m_stateMachine.ChangeState(PlayerController.LocomotionState);
                 return;
             }
         }

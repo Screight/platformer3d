@@ -16,4 +16,4 @@ MonoBehaviour:
   pitchSpeedCamera: 100
   maximumPivot: 35
   minimumPivot: -35
-  followSpeed: 10
+  followSpeed: 100

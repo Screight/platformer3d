@@ -6,16 +6,40 @@ namespace Platformer3D.Player
 {
     public class PlayerGroundState : GroundState
     {
-        PlayerController m_controller;
+        protected PlayerController PlayerController { get { return m_controller as PlayerController; } }
         public PlayerGroundState(PlayerController p_controller, StateMachine p_stateMachine, string p_name, ANIMATIONS p_animation) : base(p_stateMachine, p_controller, p_name, p_animation)
         {
             m_controller = p_controller;
+            
+        }
+
+        public override void Enter(bool p_changeToDefaultAnim)
+        {
+            base.Enter(p_changeToDefaultAnim);
+            PlayerInputHandler.Instance.AddListenerToJumpButtonPressed(HandleJump);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            PlayerInputHandler.Instance.RemoveListenerFromJumpButtonPressed(HandleJump);
         }
 
         protected override void HandleTransitionToAir()
         {
-            m_stateMachine.ChangeState(m_controller.PlayerFallState);
+            m_stateMachine.ChangeState(PlayerController.PlayerFallState);
         }
+
+        ~PlayerGroundState()
+        {
+            PlayerInputHandler.Instance.RemoveListenerFromJumpButtonPressed(HandleJump);
+        }
+
+        public void HandleJump() {
+            if(m_controller.StateMachine.CurrentState != this) { return; }
+            Debug.Log("Jump!");
+        }
+
     }
 
 }

@@ -19,9 +19,9 @@ namespace Platformer3D.Player
         {
             base.LogicUpdate();
 
-            if (m_controller.InputHandler.MovementInput.sqrMagnitude < 0.01f)
+            if (PlayerInputHandler.Instance.MovementInput.sqrMagnitude < 0.01f)
             {
-                m_stateMachine.ChangeState(m_controller.IdleState);
+                m_stateMachine.ChangeState(m_controller.IdleState, true);
                 return;
             }
 
@@ -32,7 +32,7 @@ namespace Platformer3D.Player
 
         public void HandleMovement(float p_delta)
         {
-            Vector2 input = m_controller.InputHandler.MovementInput;
+            Vector2 input = PlayerInputHandler.Instance.MovementInput;
 
             Vector3 moveDirection = m_cameraTransform.forward * input.y;
             moveDirection += m_cameraTransform.right * input.x;
@@ -44,11 +44,22 @@ namespace Platformer3D.Player
             Physics.Raycast(playerTransform.position, -playerTransform.up, out hit, 10.0f, -1, QueryTriggerInteraction.Ignore);
 
             Vector3 projectedVelocityUnitary = Vector3.ProjectOnPlane(moveDirection, hit.normal);
-            projectedVelocityUnitary *= m_controller.PlayerData.movementSpeed;
+
+            PlayerData playerData = m_controller.PlayerData;
+            float speed = 0;
+            float inputMagnitude = input.magnitude;
+
+            if(inputMagnitude < playerData.walToRunAxisTransition)
+            {
+                speed = playerData.walkSpeed;
+            }
+            else { speed = playerData.runSpeed; }
+
+            projectedVelocityUnitary *= speed;
 
             m_controller.CharacterController.Move(projectedVelocityUnitary * p_delta);
 
-            m_controller.AnimatorHandler.UpdateAnimatorValues(input.magnitude);
+            m_controller.AnimatorHandler.UpdateAnimatorValues(inputMagnitude, playerData.walToRunAxisTransition);
 
         }
 
@@ -57,8 +68,8 @@ namespace Platformer3D.Player
             Transform playerTransform = m_controller.transform;
             Vector3 targetDir = Vector3.zero;
 
-            targetDir = m_cameraTransform.forward * m_controller.InputHandler.MovementInput.y;
-            targetDir += m_cameraTransform.right * m_controller.InputHandler.MovementInput.x;
+            targetDir = m_cameraTransform.forward * PlayerInputHandler.Instance.MovementInput.y;
+            targetDir += m_cameraTransform.right * PlayerInputHandler.Instance.MovementInput.x;
 
             targetDir.Normalize();
             targetDir.y = 0;

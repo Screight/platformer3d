@@ -9,7 +9,6 @@ namespace Platformer3D.Player
 
         #region State Variables
         [SerializeField] PlayerData m_playerData;
-        StateMachine m_stateMachine;
 
         PlayerIdleState m_idleState;
         PlayerLocomotionState m_locomotionState;
@@ -18,14 +17,11 @@ namespace Platformer3D.Player
         #endregion
 
         PlayerAnimatorHandler m_animatorHandler;
-        PlayerInputHandler m_inputHandler;
 
         #region Unity Callback Functions
         private void Awake()
         {
-
             m_animatorHandler = GetComponentInChildren<PlayerAnimatorHandler>();
-            m_inputHandler = GetComponent<PlayerInputHandler>();
             m_characterController = GetComponent<CharacterController>();
 
             m_stateMachine = new StateMachine();
@@ -36,11 +32,12 @@ namespace Platformer3D.Player
         }
         private void Start()
         {
-            m_stateMachine.Initialize(m_idleState);
+            m_stateMachine.Initialize(m_fallState, true);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             m_stateMachine.CurrentState.LogicUpdate();
         }
 
@@ -55,11 +52,6 @@ namespace Platformer3D.Player
         public PlayerIdleState IdleState { get { return m_idleState; } }
         public PlayerLocomotionState LocomotionState { get { return m_locomotionState; } }
         public PlayerFallState PlayerFallState { get { return m_fallState; } }
-
-        public PlayerInputHandler InputHandler
-        {
-            get { return m_inputHandler; }
-        }
 
         public PlayerData PlayerData
         {

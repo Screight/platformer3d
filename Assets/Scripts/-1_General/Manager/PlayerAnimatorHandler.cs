@@ -34,19 +34,19 @@ namespace Platformer3D
             m_animationsHashes.Add(ANIMATIONS.EMPTY, Animator.StringToHash("Empty"));
             m_animationsHashes.Add(ANIMATIONS.LAND, Animator.StringToHash("Landing"));
             m_animationsHashes.Add(ANIMATIONS.FALLING, Animator.StringToHash("FallLoop"));
+            m_animationsHashes.Add(ANIMATIONS.FALL_TO_LANDIING, Animator.StringToHash("FallToLanding"));
 
             m_inputHandler = GetComponentInParent<PlayerInputHandler>();
 
         }
 
-        public void UpdateAnimatorValues(float p_movementValue)
+        public void UpdateAnimatorValues(float p_movementValue, float walkToRunAxisTransition)
         {
             #region Movement
             float v = 0;
-            if (p_movementValue > 0 && p_movementValue < 0.55f) { v = 0.5f; }
-            else if (p_movementValue > 0.55f) { v = 1; }
-            else if (p_movementValue < 0 && p_movementValue > -0.55f) { v = -0.5f; }
-            else if (p_movementValue < -0.55f) { v = 1; }
+            if(p_movementValue == 0) { v = 0; }
+            else if (Mathf.Abs(p_movementValue) < walkToRunAxisTransition) { v = 0.5f; }
+            else { v = 1; }
             #endregion
 
             float m_deltaTime = Time.deltaTime;

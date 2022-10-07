@@ -14,11 +14,14 @@ namespace Platformer3D.Player
 
         protected override void HandleTransitionToGround()
         {
-            if(PlayerController.InputHandler.MovementInput.sqrMagnitude > 0.01)
+            if(PlayerInputHandler.Instance.MovementInput.sqrMagnitude > 0.01)
             {
                 m_stateMachine.ChangeState(PlayerController.LocomotionState);
             }
-            else { m_stateMachine.ChangeState(PlayerController.IdleState); }
+            else {
+                m_stateMachine.ChangeState(PlayerController.IdleState, false);
+                PlayerController.AnimatorHandler.PlayTargetAnimation(ANIMATIONS.FALL_TO_LANDIING);
+            }
         }
     }
 }

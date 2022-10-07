@@ -10,6 +10,12 @@ namespace Platformer3D
         {
         }
 
+        public override void Enter(bool p_changeToDefaultAnim)
+        {
+            base.Enter(p_changeToDefaultAnim);
+            m_controller.MovementY = -0.4f;
+        }
+
         public override void LogicUpdate()
         {
             base.LogicUpdate();

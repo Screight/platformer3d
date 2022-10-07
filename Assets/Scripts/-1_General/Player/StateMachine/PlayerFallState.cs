@@ -11,9 +11,9 @@ namespace Platformer3D.Player
             m_name = "Fall State";
         }
 
-        public override void Enter()
+        public override void Enter(bool p_changeToDefaultAnim)
         {
-            base.Enter();
+            base.Enter(p_changeToDefaultAnim);
             PlayerController.AnimatorHandler.PlayTargetAnimation(m_animation);
         }
 

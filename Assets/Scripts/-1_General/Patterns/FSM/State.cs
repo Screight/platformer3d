@@ -23,7 +23,7 @@ namespace Platformer3D
             m_animation = p_animation;
         }
 
-        public virtual void Enter()
+        public virtual void Enter(bool p_changeToDefaultAnim = true)
         {
             Debug.Log("Entered " + m_name + " state.");
             DoChecks();

@@ -8,17 +8,17 @@ namespace Platformer3D
     {
         State m_currentState;
 
-        public void Initialize(State p_startingState)
+        public void Initialize(State p_startingState, bool p_changeToDefaultAnim)
         {
             m_currentState = p_startingState;
-            m_currentState.Enter();
+            m_currentState.Enter(p_changeToDefaultAnim);
         }
 
-        public void ChangeState(State p_newState)
+        public void ChangeState(State p_newState, bool p_changeToDefaultAnim = true)
         {
             m_currentState.Exit();
             m_currentState = p_newState;
-            m_currentState.Enter();
+            m_currentState.Enter(p_changeToDefaultAnim);
         }
 
         public State CurrentState

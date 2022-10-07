@@ -13,9 +13,15 @@ namespace Platformer3D
             m_controller = p_controller;
         }
 
-        public override void Enter()
+        public override void Enter(bool p_changeToDefaultAnim)
         {
-            base.Enter();
+            base.Enter(p_changeToDefaultAnim);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            m_verticalSpeed = 0;
         }
 
         public override void LogicUpdate()
@@ -31,18 +37,12 @@ namespace Platformer3D
         private void HandleGravity()
         {
             CharacterController controller = m_controller.CharacterController;
-            if (controller.isGrounded)
-            {
-                Debug.Log("Grounded");
-            }
-            if (!controller.isGrounded)
-            {
-                float time = Time.deltaTime;
-                float gravity = -9.8f;
-                m_verticalSpeed += gravity * time;
-                float distance = m_verticalSpeed * time;
-                controller.Move(new Vector3(0, distance, 0));
-            }
+            float time = Time.deltaTime;
+            float gravity = -9.8f;
+            m_verticalSpeed += gravity * time;
+            float distance = m_verticalSpeed * time;
+            m_controller.MovementY = distance;
+            controller.Move(new Vector3(0, distance, 0));
 
         }
 
