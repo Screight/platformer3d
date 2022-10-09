@@ -6,8 +6,8 @@ namespace Platformer3D
 {
     abstract public class AirState : State
     {
-        float m_verticalSpeed;
-
+        protected float m_verticalSpeed;
+        protected float m_gravity;
         protected AirState(Controller p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_stateMachine, p_controller, "Idle State", p_animation)
         {
             m_controller = p_controller;
@@ -36,14 +36,11 @@ namespace Platformer3D
 
         private void HandleGravity()
         {
-            CharacterController controller = m_controller.CharacterController;
             float time = Time.deltaTime;
-            float gravity = -9.8f;
+            float gravity = m_gravity;
             m_verticalSpeed += gravity * time;
             float distance = m_verticalSpeed * time;
-            m_controller.MovementY = distance;
-            controller.Move(new Vector3(0, distance, 0));
-
+            m_controller.MovementY += distance;
         }
 
         protected abstract void HandleTransitionToGround();

@@ -53,15 +53,15 @@ namespace Platformer3D
             m_animator.SetFloat(m_movementHash, v, 0.1f, m_deltaTime);
         }
 
-        public void PlayTargetAnimation(ANIMATIONS p_targetAnim)
+        public void PlayTargetAnimation(ANIMATIONS p_targetAnim, float p_transitionTime = 0.2f)
         {
             m_currentAnimation = p_targetAnim;
-            m_animator.CrossFade(m_animationsHashes[p_targetAnim], 0.2f);
+            m_animator.CrossFade(m_animationsHashes[p_targetAnim], p_transitionTime);
         }
 
-        public void PlayTargetAnimation(int p_targetAnimHash)
+        public void PlayTargetAnimation(int p_targetAnimHash, float p_transitionTime = 0.2f)
         {
-            m_animator.CrossFade(p_targetAnimHash, 0.2f);
+            m_animator.CrossFade(p_targetAnimHash, p_transitionTime);
         }
 
         #region Accesors

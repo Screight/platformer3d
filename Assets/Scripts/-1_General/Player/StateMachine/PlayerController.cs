@@ -13,6 +13,9 @@ namespace Platformer3D.Player
         PlayerIdleState m_idleState;
         PlayerLocomotionState m_locomotionState;
         PlayerFallState m_fallState;
+        PlayerJumpState m_jumpState;
+
+        float m_gravityDefault;
 
         #endregion
 
@@ -29,6 +32,10 @@ namespace Platformer3D.Player
             m_idleState = new PlayerIdleState(this, m_stateMachine, ANIMATIONS.LOCOMOTION);
             m_locomotionState = new PlayerLocomotionState(this, m_stateMachine, ANIMATIONS.LOCOMOTION);
             m_fallState = new PlayerFallState(this, m_stateMachine, ANIMATIONS.FALLING);
+            m_jumpState = new PlayerJumpState(this, m_stateMachine, ANIMATIONS.JUMP);
+
+            m_gravityDefault = m_playerData.gravity_1;
+
         }
         private void Start()
         {
@@ -49,9 +56,12 @@ namespace Platformer3D.Player
 
         #region Accessors
 
+        #region States
         public PlayerIdleState IdleState { get { return m_idleState; } }
         public PlayerLocomotionState LocomotionState { get { return m_locomotionState; } }
-        public PlayerFallState PlayerFallState { get { return m_fallState; } }
+        public PlayerFallState FallState { get { return m_fallState; } }
+        public PlayerJumpState JumpState { get { return m_jumpState; } }
+        #endregion
 
         public PlayerData PlayerData
         {
@@ -61,6 +71,11 @@ namespace Platformer3D.Player
         public PlayerAnimatorHandler AnimatorHandler
         {
             get { return m_animatorHandler; }
+        }
+
+        public float GravityDefault { 
+            get { return m_gravityDefault; }
+            private set { }
         }
 
         #endregion

@@ -17,6 +17,7 @@ namespace Platformer3D.Player
         {
             base.Enter(p_changeToDefaultAnim);
             PlayerInputHandler.Instance.AddListenerToJumpButtonPressed(HandleJump);
+            m_controller.MovementY = -0.05f;
         }
 
         public override void Exit()
@@ -27,7 +28,7 @@ namespace Platformer3D.Player
 
         protected override void HandleTransitionToAir()
         {
-            m_stateMachine.ChangeState(PlayerController.PlayerFallState);
+            m_stateMachine.ChangeState(PlayerController.FallState);
         }
 
         ~PlayerGroundState()
@@ -37,7 +38,7 @@ namespace Platformer3D.Player
 
         public void HandleJump() {
             if(m_controller.StateMachine.CurrentState != this) { return; }
-            Debug.Log("Jump!");
+            m_stateMachine.ChangeState(PlayerController.JumpState);
         }
 
     }

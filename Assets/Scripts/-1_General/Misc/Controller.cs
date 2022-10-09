@@ -14,6 +14,7 @@ namespace Platformer3D
         protected virtual void Update()
         {
             m_characterController.Move(m_movement);
+            m_movement = Vector2.zero;
         }
 
         #region Getters and Setters

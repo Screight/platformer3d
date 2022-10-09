@@ -14,7 +14,7 @@ namespace Platformer3D.Player
         public override void Enter(bool p_changeToDefaultAnim)
         {
             base.Enter(p_changeToDefaultAnim);
-            PlayerController.AnimatorHandler.PlayTargetAnimation(m_animation);
+            PlayerController.AnimatorHandler.PlayTargetAnimation(m_animation, 0.5f);
         }
 
     }
