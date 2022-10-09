@@ -6,7 +6,6 @@ namespace Platformer3D.Player
 {
     public class PlayerController : Controller
     {
-
         #region State Variables
         [SerializeField] PlayerData m_playerData;
 
@@ -16,7 +15,8 @@ namespace Platformer3D.Player
         PlayerJumpState m_jumpState;
 
         float m_gravityDefault;
-
+        int m_jumpCount = 0;
+        const int MAX_NUMBER_OF_JUMPS = 3;
         #endregion
 
         #region Unity Callback Functions
@@ -75,6 +75,24 @@ namespace Platformer3D.Player
         public float GravityDefault { 
             get { return m_gravityDefault; }
             private set { }
+        }
+
+
+        public int MaxNumberOfJumps { get { return MAX_NUMBER_OF_JUMPS; } }
+        public int JumpCount
+        {
+            get { return m_jumpCount; }
+            set
+            {
+                int result = value;
+                if(value < 0) { result = 0; }
+                else if(value >= MAX_NUMBER_OF_JUMPS) { result = MAX_NUMBER_OF_JUMPS; }
+                else
+                {
+                    result = value;
+                }
+                m_jumpCount = result;
+            }
         }
 
         #endregion

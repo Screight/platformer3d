@@ -16,6 +16,7 @@ namespace Platformer3D
         public float fallSpeed = 100.0f;
 
         [Header("Jump State")]
+
         public float gravity_1 = -10f;
         public float initialSpeed_1 = 8f;
         public float gravity_2 = -10f;
