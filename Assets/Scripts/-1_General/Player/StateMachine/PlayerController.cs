@@ -19,12 +19,11 @@ namespace Platformer3D.Player
 
         #endregion
 
-        PlayerAnimatorHandler m_animatorHandler;
-
         #region Unity Callback Functions
-        private void Awake()
+        protected override void Awake()
         {
-            m_animatorHandler = GetComponentInChildren<PlayerAnimatorHandler>();
+            base.Awake();
+
             m_characterController = GetComponent<CharacterController>();
 
             m_stateMachine = new StateMachine();
@@ -68,9 +67,9 @@ namespace Platformer3D.Player
             get { return m_playerData; }
         }
 
-        public PlayerAnimatorHandler AnimatorHandler
+        public new PlayerAnimatorHandler AnimatorHandler
         {
-            get { return m_animatorHandler; }
+            get { return m_animatorHandler as PlayerAnimatorHandler; }
         }
 
         public float GravityDefault { 

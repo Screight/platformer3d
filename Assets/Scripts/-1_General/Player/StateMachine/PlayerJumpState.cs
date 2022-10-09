@@ -32,10 +32,6 @@ namespace Platformer3D.Player
         public override void Enter(bool p_changeToDefaultAnim)
         {
             base.Enter(p_changeToDefaultAnim);
-            if (p_changeToDefaultAnim)
-            {
-                PlayerController.AnimatorHandler.PlayTargetAnimation(ANIMATIONS.JUMP);
-            }
             m_verticalSpeed += m_initialSpeed_1;
         }
 

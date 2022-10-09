@@ -15,6 +15,8 @@ namespace Platformer3D.Player
             m_cameraTransform = Camera.main.transform;
         }
 
+
+
         public override void LogicUpdate()
         {
             base.LogicUpdate();

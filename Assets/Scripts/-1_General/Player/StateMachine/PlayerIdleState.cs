@@ -13,10 +13,6 @@ namespace Platformer3D.Player
         public override void Enter(bool p_changeToDefaultAnim)
         {
             base.Enter(p_changeToDefaultAnim);
-            if (p_changeToDefaultAnim)
-            {
-                PlayerController.AnimatorHandler.PlayTargetAnimation(ANIMATIONS.LOCOMOTION);
-            }
         }
 
         public override void LogicUpdate()

@@ -8,8 +8,14 @@ namespace Platformer3D
     {
         protected CharacterController m_characterController;
         protected StateMachine m_stateMachine;
+        protected AnimatorHandler m_animatorHandler;
 
         Vector3 m_movement;
+
+        protected virtual void Awake()
+        {
+            m_animatorHandler = GetComponentInChildren<AnimatorHandler>();
+        }
 
         protected virtual void Update()
         {
@@ -28,6 +34,11 @@ namespace Platformer3D
         {
             get { return m_stateMachine; }
             private set { }
+        }
+
+        public AnimatorHandler AnimatorHandler
+        {
+            get { return m_animatorHandler; }
         }
 
         #region Movement

@@ -4,27 +4,21 @@ using UnityEngine;
 
 namespace Platformer3D
 {
-    public class PlayerAnimatorHandler : MonoBehaviour
+    public class PlayerAnimatorHandler : AnimatorHandler
     {
         PlayerInputHandler m_inputHandler;
 
-        Animator m_animator;
         int m_movementHash;
-
-        Dictionary<ANIMATIONS, int> m_animationsHashes = new Dictionary<ANIMATIONS, int>();
-
-        int m_isInteractingHash;
-
-        ANIMATIONS m_currentAnimation;
 
         private void OnEnable()
         {
             Initialize();
         }
 
-        public void Initialize()
+        protected override void Initialize()
         {
-            m_animator = GetComponent<Animator>();
+            base.Initialize();
+
             m_movementHash = Animator.StringToHash("Movement");
 
             m_animationsHashes.Add(ANIMATIONS.LOCOMOTION, Animator.StringToHash("Locomotion"));
@@ -53,17 +47,6 @@ namespace Platformer3D
             m_animator.SetFloat(m_movementHash, v, 0.1f, m_deltaTime);
         }
 
-        public void PlayTargetAnimation(ANIMATIONS p_targetAnim, float p_transitionTime = 0.2f)
-        {
-            m_currentAnimation = p_targetAnim;
-            m_animator.CrossFade(m_animationsHashes[p_targetAnim], p_transitionTime);
-        }
-
-        public void PlayTargetAnimation(int p_targetAnimHash, float p_transitionTime = 0.2f)
-        {
-            m_animator.CrossFade(p_targetAnimHash, p_transitionTime);
-        }
-
         #region Accesors
         public float Movement
         {
@@ -74,16 +57,6 @@ namespace Platformer3D
         public void SetMovementType(float p_value)
         {
             m_animator.SetFloat(m_movementHash, p_value, 0.0f, Time.deltaTime);
-        }
-
-        public ANIMATIONS CurrentAnimation
-        {
-            get { return m_currentAnimation; }
-        }
-
-        public int CurrentAnimationHash
-        {
-            get { return m_animationsHashes[m_currentAnimation]; }
         }
 
         #endregion

@@ -15,7 +15,9 @@ namespace Platformer3D.Player
 
         protected override void HandleTransitionToGround()
         {
-            if(PlayerInputHandler.Instance.MovementInput.sqrMagnitude > 0.01)
+            float hola1 = PlayerInputHandler.Instance.MovementInput.magnitude;
+            bool hola = PlayerInputHandler.Instance.MovementInput.magnitude > 0.01f;
+            if (PlayerInputHandler.Instance.MovementInput.magnitude > 0.01f)
             {
                 m_stateMachine.ChangeState(PlayerController.LocomotionState);
             }

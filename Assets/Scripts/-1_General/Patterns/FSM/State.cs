@@ -30,6 +30,12 @@ namespace Platformer3D
             // start animation
             m_startTime = Time.time;
             m_isActive = true;
+
+            if (p_changeToDefaultAnim)
+            {
+                m_controller.AnimatorHandler.PlayTargetAnimation(m_animation);
+            }
+
         }
         public virtual void Exit()
         {
