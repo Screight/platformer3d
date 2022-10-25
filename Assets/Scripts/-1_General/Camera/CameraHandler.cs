@@ -19,8 +19,12 @@ namespace Platformer3D
         [SerializeField] CameraData m_data;
         PlayerInputHandler m_inputHandler;
 
-        Transform m_cameraTransform;
+        [SerializeField] Transform m_cameraTransform;
         [SerializeField] Transform m_pivotTransform;
+        [SerializeField] Vector3 m_targetOffset;
+
+        float m_cameraDefaultDepth;
+        float m_cameraDepth;
 
         [SerializeField] Transform m_target;
         Vector3 m_currentVelocity;
@@ -28,7 +32,9 @@ namespace Platformer3D
         protected override void Awake()
         {
             base.Awake();
-            m_cameraTransform = transform;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             m_yawSpeed = m_data.yawSpeedCamera;
             m_pitchSpeed = m_data.pitchSpeedCamera;
@@ -36,19 +42,47 @@ namespace Platformer3D
             m_maximumPivot = m_data.maximumPivot;
             m_followSpeed = m_data.followSpeed;
 
+            m_cameraDefaultDepth = m_cameraTransform.localPosition.z;
+
             m_inputHandler = FindObjectOfType<PlayerInputHandler>();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             float delta = Time.deltaTime;
-            HandleCameraMovement(delta);
+
             FollowTarget();
+            HandleCameraMovement(delta);
+            HandleCameraCollision();
         }
 
         private void FollowTarget()
         {
             transform.position = Vector3.SmoothDamp(transform.position, m_target.position, ref m_currentVelocity, 1/m_followSpeed);
+        }
+
+        private void HandleCameraCollision()
+        {
+            RaycastHit hit;
+
+            Vector3 direction = (m_cameraTransform.position - m_target.position).normalized;
+            bool isAnyObject = Physics.Linecast(m_target.position + m_targetOffset, m_cameraTransform.position - 0.5f * m_cameraTransform.forward, out hit);
+
+            isAnyObject = Physics.Raycast(m_target.position + m_targetOffset, -m_cameraTransform.forward, out hit, Mathf.Abs(m_cameraDefaultDepth));
+
+            if (isAnyObject)
+            {
+                Debug.Log(hit.transform.gameObject.name);
+                float targetToHitDistance = (hit.point - (m_target.position + m_targetOffset)).magnitude;
+                if (targetToHitDistance < Mathf.Abs(m_cameraDefaultDepth))
+                {
+                    m_cameraDepth = -targetToHitDistance;
+                }
+                else { m_cameraDepth = m_cameraDefaultDepth; }
+            }
+            else { m_cameraDepth = m_cameraDefaultDepth; }
+
+            m_cameraTransform.localPosition = new Vector3(m_cameraTransform.localPosition.x, m_cameraTransform.localPosition.y, m_cameraDepth);
         }
 
         private void HandleCameraMovement(float p_delta)
@@ -62,12 +96,19 @@ namespace Platformer3D
             Vector3 rotation = Vector3.zero;
             rotation.y = m_yaw;
             Quaternion targetRotation = Quaternion.Euler(rotation);
-            m_cameraTransform.rotation = targetRotation;
+            transform.rotation = targetRotation;
 
             rotation = Vector3.zero;
             rotation.x = m_pitch;
             targetRotation = Quaternion.Euler(rotation);
             m_pivotTransform.localRotation = targetRotation;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(m_target.position + m_targetOffset, m_cameraTransform.position);
+            Gizmos.color = Color.white;
         }
 
         #region Accessors

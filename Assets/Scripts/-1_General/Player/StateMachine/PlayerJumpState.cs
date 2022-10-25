@@ -39,7 +39,6 @@ namespace Platformer3D.Player
         {
             base.Enter(p_changeToDefaultAnim);
 
-            PlayerController.JumpCount++;
             JumpInfo jumpInfo = m_jumpInfoArray[PlayerController.JumpCount - 1];
 
             m_gravity = jumpInfo.gravity;

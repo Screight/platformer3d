@@ -20,11 +20,13 @@ namespace Platformer3D
 
         PlayerControl m_inputActions;
         Vector2 m_movementInput;
+        Vector2 m_lastMovementInput;
+
         Vector2 m_cameraInput;
 
-
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             m_jumpEvent = new UnityEvent();
         }
 
@@ -38,7 +40,10 @@ namespace Platformer3D
             if (m_inputActions != null) return;
             m_inputActions = new PlayerControl();
 
-            m_inputActions.PlayerMovement.Movement.performed += (m_inputActions) => { m_movementInput = m_inputActions.ReadValue<Vector2>(); };
+            m_inputActions.PlayerMovement.Movement.performed += (m_inputActions) => {
+                m_lastMovementInput = m_movementInput;
+                m_movementInput = m_inputActions.ReadValue<Vector2>();
+            };
             m_inputActions.PlayerMovement.Camera.performed += (m_inputActions) => { m_cameraInput = m_inputActions.ReadValue<Vector2>(); };
 
             m_inputActions.PlayerActions.Jump.performed += JumpButtonPressedCallback;
@@ -58,6 +63,7 @@ namespace Platformer3D
         }
 
         public Vector2 MovementInput { get { return m_movementInput; } }
+        public Vector2 LastMovementInput { get { return m_lastMovementInput; } }
         public Vector2 CameraInput { get { return m_cameraInput; } }
 
     }

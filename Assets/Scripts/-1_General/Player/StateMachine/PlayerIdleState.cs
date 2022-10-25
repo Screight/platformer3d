@@ -24,9 +24,15 @@ namespace Platformer3D.Player
             }
 
             base.LogicUpdate();
-            if (PlayerInputHandler.Instance.MovementInput.sqrMagnitude > 0.01f)
+
+            bool canTransitionToLocomotion =
+                PlayerInputHandler.Instance.MovementInput.sqrMagnitude > 0f &&
+                !m_controller.AnimatorHandler.IsAnimationPlaying (ANIMATIONS.RUN_TO_STOP);
+
+            if (canTransitionToLocomotion)
             {
-                m_stateMachine.ChangeState(PlayerController.LocomotionState);
+                m_stateMachine.ChangeState(PlayerController.LocomotionState, false);
+                m_controller.AnimatorHandler.PlayTargetAnimation(ANIMATIONS.LOCOMOTION, 0.1f);
                 return;
             }
         }

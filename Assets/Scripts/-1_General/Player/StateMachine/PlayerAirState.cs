@@ -7,10 +7,29 @@ namespace Platformer3D.Player
     public class PlayerAirState : AirState
     {
         protected PlayerController PlayerController { get { return m_controller as PlayerController; } }
+
+        Movement m_movementBehaviour;
+
         protected PlayerAirState(PlayerController p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_controller, p_stateMachine, p_animation)
         {
             m_controller = p_controller;
             m_gravity = PlayerController.PlayerData.gravity_1;
+
+            m_movementBehaviour = new Movement(UnityEngine.Camera.main.transform, p_controller);
+
+        }
+
+        public override void LogicUpdate()
+        {
+            base.LogicUpdate();
+
+            float deltaTime = Time.deltaTime;
+            PlayerData playerData = PlayerController.PlayerData;
+
+            m_movementBehaviour.HandleMovement(deltaTime, playerData, PlayerInputHandler.Instance.MovementInput);
+
+            m_movementBehaviour.HandleRotation(deltaTime, playerData);
+
         }
 
         protected override void HandleTransitionToGround()

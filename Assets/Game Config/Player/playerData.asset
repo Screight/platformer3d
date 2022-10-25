@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86507249980a07048b06f69f0e308a4c, type: 3}
   m_Name: playerData
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 4
+  walkSpeed: 3
+  runSpeed: 5
   sprintSpeed: 7
-  rotationSpeed: 10
+  rotationSpeed: 720
   fallSpeed: 100
-  gravity_1: -10
+  gravity_1: -20
   initialSpeed_1: 10
-  gravity_2: -10
+  gravity_2: -20
   initialSpeed_2: 10
-  gravity_3: -10
+  gravity_3: -20
   initialSpeed_3: 12
   walToRunAxisTransition: 0.4
   m_groundMask:

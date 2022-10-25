@@ -14,10 +14,14 @@ namespace Platformer3D.Player
         PlayerFallState m_fallState;
         PlayerJumpState m_jumpState;
 
+        float m_windowToChainJumps = 0.1f;
         float m_gravityDefault;
         int m_jumpCount = 0;
         const int MAX_NUMBER_OF_JUMPS = 3;
         #endregion
+
+        bool m_canRotate = true;
+        bool m_canMove = true;
 
         #region Unity Callback Functions
         protected override void Awake()
@@ -93,6 +97,22 @@ namespace Platformer3D.Player
                 }
                 m_jumpCount = result;
             }
+        }
+
+        public float WindowToChainJumps
+        {
+            get { return m_windowToChainJumps; }
+        }
+
+        public bool CanRotate
+        {
+            get { return m_canRotate; }
+            set { m_canRotate = value; }
+        }
+        public bool CanMove
+        {
+            get { return m_canMove; }
+            set { m_canMove = value; }
         }
 
         #endregion

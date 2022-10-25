@@ -21,14 +21,49 @@ namespace Platformer3D
 
             m_movementHash = Animator.StringToHash("Movement");
 
-            m_animationsHashes.Add(ANIMATIONS.LOCOMOTION, Animator.StringToHash("Locomotion"));
-            m_animationsHashes.Add(ANIMATIONS.JUMP, Animator.StringToHash("Jump_1"));
-            m_animationsHashes.Add(ANIMATIONS.JUMP_2, Animator.StringToHash("Jump_2"));
-            m_animationsHashes.Add(ANIMATIONS.JUMP_3, Animator.StringToHash("Jump_3"));
-            m_animationsHashes.Add(ANIMATIONS.EMPTY, Animator.StringToHash("Empty"));
-            m_animationsHashes.Add(ANIMATIONS.LAND, Animator.StringToHash("Landing"));
-            m_animationsHashes.Add(ANIMATIONS.FALLING, Animator.StringToHash("FallLoop"));
-            m_animationsHashes.Add(ANIMATIONS.FALL_TO_LANDIING, Animator.StringToHash("FallToLanding"));
+            string name = "Locomotion";
+            Animation animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.LOCOMOTION, animation);
+
+            name = "Jump_1";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.JUMP, animation);
+
+            name = "Jump_2";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.JUMP_2, animation);
+
+            name = "Jump_3";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.JUMP_3, animation);
+
+            name = "Empty";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.EMPTY, animation);
+
+            name = "Landing";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.LAND, animation);
+
+            name = "FallLoop";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.FALLING, animation);
+
+            name = "FallToLanding";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.FALL_TO_LANDIING, animation);
+
+            name = "RunPreparation";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.RUN_PREPARATION, animation);
+
+            name = "Idle";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.IDLE, animation);
+
+            name = "RunToStop";
+            animation = new Animation(name, Animator.StringToHash(name));
+            m_animations.Add(ANIMATIONS.RUN_TO_STOP, animation);
 
             m_inputHandler = GetComponentInParent<PlayerInputHandler>();
 
