@@ -8,6 +8,8 @@ namespace Platformer3D.Player
     {
         Transform m_cameraTransform;
         PlayerController m_controller;
+        float m_speed;
+        PlayerData m_data;
         
         public Movement(Transform p_cameraTransform, PlayerController p_controller)
         {
@@ -15,7 +17,7 @@ namespace Platformer3D.Player
             m_controller = p_controller;
         }
 
-        public virtual void HandleMovement(float p_deltaTime, PlayerData p_playerData, Vector2 input)
+        public virtual void HandleMovement(float p_deltaTime, PlayerData p_playerData, Vector2 input, bool p_isAccelerated = false)
         {
             if(!m_controller.CanMove) { return; }
 
@@ -38,7 +40,18 @@ namespace Platformer3D.Player
             {
                 speed = playerData.walkSpeed;
             }
-            else { speed = playerData.runSpeed; }
+            else {
+                if (p_isAccelerated)
+                {
+                    if (m_speed < playerData.runSpeed)
+                    {
+                        m_speed += p_deltaTime * playerData.acceleration;
+                        m_speed = Mathf.Clamp(m_speed, 0, playerData.runSpeed);
+                    }
+                    speed = m_speed;
+                }
+                else { speed = playerData.runSpeed; }
+            }
 
             projectedVelocityUnitary *= speed;
 
@@ -69,20 +82,10 @@ namespace Platformer3D.Player
             Quaternion targetRotation = Quaternion.LookRotation(target, playerTransform.up);
 
             playerTransform.rotation = Quaternion.RotateTowards(playerTransform.rotation, targetRotation, m_controller.PlayerData.rotationSpeed * Time.deltaTime);
-
-            return;
-            if (m_controller.AnimatorHandler.Movement > 0.55f)
-            {
-                float maxAngle = 120;
-                float diff = Vector3.Angle(playerTransform.forward, target);
-                if (diff > maxAngle)
-                {
-                    m_controller.AnimatorHandler.PlayTargetAnimation(ANIMATIONS.RUN_TO_STOP);
-                    m_controller.CanRotate = false;
-                }
-            }
-
         }
+
+        public void ResetSpeed() { m_speed = 0; }
+        public bool IsMaxSpeed() { return m_speed == m_controller.PlayerData.runSpeed; }
 
     }
 }

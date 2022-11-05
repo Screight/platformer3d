@@ -14,6 +14,7 @@ namespace Platformer3D
         public float sprintSpeed = 7.0f;
         public float rotationSpeed = 10.0f;
         public float fallSpeed = 100.0f;
+        public float acceleration = 1.0f;
 
         [Header("Jump State")]
 
