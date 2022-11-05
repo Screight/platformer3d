@@ -16,7 +16,6 @@ namespace Platformer3D.Player
             m_gravity = PlayerController.PlayerData.gravity_1;
 
             m_movementBehaviour = new Movement(UnityEngine.Camera.main.transform, p_controller);
-
         }
 
         public override void LogicUpdate()
@@ -39,6 +38,7 @@ namespace Platformer3D.Player
             if (PlayerInputHandler.Instance.MovementInput.magnitude > 0.01f)
             {
                 m_stateMachine.ChangeState(PlayerController.LocomotionState);
+                PlayerController.LocomotionState.IsAccelerating = false;
             }
             else {
                 m_stateMachine.ChangeState(PlayerController.IdleState, false);

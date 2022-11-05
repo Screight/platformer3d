@@ -32,6 +32,7 @@ namespace Platformer3D.Player
             if (canTransitionToLocomotion)
             {
                 m_stateMachine.ChangeState(PlayerController.LocomotionState, false);
+                PlayerController.LocomotionState.IsAccelerating = true;
                 m_controller.AnimatorHandler.PlayTargetAnimation(ANIMATIONS.LOCOMOTION, 0.1f);
                 return;
             }

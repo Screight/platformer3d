@@ -7,6 +7,7 @@ namespace Platformer3D.Player
     public class PlayerLocomotionState : PlayerGroundState
     {
         float m_currentSpeed = 0;
+        bool m_isAccelerating = false;
 
         public PlayerLocomotionState(PlayerController p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_controller, p_stateMachine, "Locomotion State", p_animation)
         {
@@ -35,7 +36,7 @@ namespace Platformer3D.Player
 
             Vector2 input = PlayerInputHandler.Instance.MovementInput;
 
-            m_movementBehaviour.HandleMovement(deltaTime, playerData, input, true);
+            m_movementBehaviour.HandleMovement(deltaTime, playerData, input, m_isAccelerating);
 
             PlayerController.AnimatorHandler.UpdateAnimatorValues(inputMagnitude, PlayerController.PlayerData.walToRunAxisTransition);
 
@@ -60,5 +61,7 @@ namespace Platformer3D.Player
             #endregion
 
         }
+
+        public bool IsAccelerating { set{ m_isAccelerating = value; } }
     }
 }
