@@ -27,6 +27,7 @@ namespace Platformer3D
         protected override void Awake()
         {
             base.Awake();
+            DontDestroyOnLoad(this);
             m_jumpEvent = new UnityEvent();
         }
 
