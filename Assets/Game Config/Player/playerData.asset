@@ -17,6 +17,7 @@ MonoBehaviour:
   sprintSpeed: 7
   rotationSpeed: 720
   fallSpeed: 100
+  acceleration: 3
   gravity_1: -20
   initialSpeed_1: 10
   gravity_2: -20
