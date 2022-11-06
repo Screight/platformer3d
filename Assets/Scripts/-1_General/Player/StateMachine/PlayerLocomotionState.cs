@@ -12,6 +12,7 @@ namespace Platformer3D.Player
         public PlayerLocomotionState(PlayerController p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_controller, p_stateMachine, "Locomotion State", p_animation)
         {
             m_controller = p_controller;
+            m_internalName = "player_locomotion_state";
         }
 
         public override void Enter(bool p_changeToDefaultAnim)

@@ -43,17 +43,7 @@ namespace Platformer3D.Player
         private void Start()
         {
             m_stateMachine.Initialize(m_fallState, true);
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            m_stateMachine.CurrentState.LogicUpdate();
-        }
-
-        private void FixedUpdate()
-        {
-            m_stateMachine.CurrentState.PhysicsUpdate();
+            GameManager.Instance.SetPlayerController(this);
         }
         #endregion
 
@@ -64,23 +54,17 @@ namespace Platformer3D.Player
         public PlayerLocomotionState LocomotionState { get { return m_locomotionState; } }
         public PlayerFallState FallState { get { return m_fallState; } }
         public PlayerJumpState JumpState { get { return m_jumpState; } }
+        public State CurrentState { get { return m_stateMachine.CurrentState; } }
         #endregion
 
-        public PlayerData PlayerData
-        {
-            get { return m_playerData; }
-        }
+        public PlayerData PlayerData { get { return m_playerData; } }
 
-        public new PlayerAnimatorHandler AnimatorHandler
-        {
-            get { return m_animatorHandler as PlayerAnimatorHandler; }
-        }
+        public new PlayerAnimatorHandler AnimatorHandler { get { return m_animatorHandler as PlayerAnimatorHandler; } }
 
-        public float GravityDefault { 
+        public float GravityDefault {
             get { return m_gravityDefault; }
             private set { }
         }
-
 
         public int MaxNumberOfJumps { get { return MAX_NUMBER_OF_JUMPS; } }
         public int JumpCount
@@ -89,8 +73,8 @@ namespace Platformer3D.Player
             set
             {
                 int result = value;
-                if(value < 0) { result = 0; }
-                else if(value >= MAX_NUMBER_OF_JUMPS) { result = MAX_NUMBER_OF_JUMPS; }
+                if (value < 0) { result = 0; }
+                else if (value >= MAX_NUMBER_OF_JUMPS) { result = MAX_NUMBER_OF_JUMPS; }
                 else
                 {
                     result = value;
@@ -116,6 +100,13 @@ namespace Platformer3D.Player
         }
 
         #endregion
+
+        private void OnControllerColliderHit(ControllerColliderHit p_hit)
+        {
+            OnControllerColliderHitEvent hitEvent = p_hit.collider.gameObject.GetComponent(typeof(OnControllerColliderHitEvent)) as OnControllerColliderHitEvent;
+            if(hitEvent == null) { return; }
+            hitEvent.HandleInteraction(p_hit);
+        }
     }
 }
 

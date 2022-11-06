@@ -12,6 +12,7 @@ namespace Platformer3D.Player
 
         protected PlayerAirState(PlayerController p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_controller, p_stateMachine, p_animation)
         {
+            m_internalName = "player_air_state";
             m_controller = p_controller;
             m_gravity = PlayerController.PlayerData.gravity_1;
 
@@ -33,8 +34,6 @@ namespace Platformer3D.Player
 
         protected override void HandleTransitionToGround()
         {
-            float hola1 = PlayerInputHandler.Instance.MovementInput.magnitude;
-            bool hola = PlayerInputHandler.Instance.MovementInput.magnitude > 0.01f;
             if (PlayerInputHandler.Instance.MovementInput.magnitude > 0.01f)
             {
                 m_stateMachine.ChangeState(PlayerController.LocomotionState);

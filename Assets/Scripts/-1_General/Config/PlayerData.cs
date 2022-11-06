@@ -27,8 +27,5 @@ namespace Platformer3D
 
         [Range(0,1)]
         public float walToRunAxisTransition = 0.4f;
-
-        [Tooltip("The layers to ignore when checking for ground")]
-        public LayerMask m_groundMask;
     }
 }

@@ -8,6 +8,7 @@ namespace Platformer3D.Player
     {
         public PlayerIdleState(PlayerController p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_controller, p_stateMachine, "Idle State", p_animation)
         {
+            m_internalName = "player_idle_state";
         }
 
         public override void Enter(bool p_changeToDefaultAnim)

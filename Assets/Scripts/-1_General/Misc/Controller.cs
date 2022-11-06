@@ -10,7 +10,12 @@ namespace Platformer3D
         protected StateMachine m_stateMachine;
         protected AnimatorHandler m_animatorHandler;
 
+        [SerializeField] Transform m_groundedTransform;
+        [SerializeField] LayerMask m_groundedLayersToIgnore;
+
         Vector3 m_movement;
+        bool m_isGrounded = false;
+        bool m_isGroundedEnabled = true;
 
         protected virtual void Awake()
         {
@@ -19,27 +24,33 @@ namespace Platformer3D
 
         protected virtual void Update()
         {
+            CalculateIsGrounded();
+            m_stateMachine.CurrentState.LogicUpdate();
             m_characterController.Move(m_movement);
             m_movement = Vector2.zero;
         }
 
+        protected virtual void FixedUpdate()
+        {
+            m_stateMachine.CurrentState.PhysicsUpdate();
+        }
+
+        public void CalculateIsGrounded()
+        {
+            if (m_isGroundedEnabled)
+            {
+                m_isGrounded = Physics.Raycast(m_groundedTransform.position, -Vector2.up, 0.05f, m_groundedLayersToIgnore);
+            }
+            else { m_isGrounded = false; }
+        }
+
         #region Getters and Setters
 
-        public CharacterController CharacterController
-        {
-            get { return m_characterController; }
-        }
-
-        public StateMachine StateMachine
-        {
-            get { return m_stateMachine; }
-            private set { }
-        }
-
-        public AnimatorHandler AnimatorHandler
-        {
-            get { return m_animatorHandler; }
-        }
+        public bool IsGrounded { get { return m_isGrounded; } }
+        public bool IsGroundedEnabled { set { m_isGroundedEnabled = value; } }
+        public CharacterController CharacterController { get { return m_characterController; } }
+        public StateMachine StateMachine { get { return m_stateMachine; } }
+        public AnimatorHandler AnimatorHandler { get { return m_animatorHandler; } }
 
         #region Movement
         public Vector3 Movement

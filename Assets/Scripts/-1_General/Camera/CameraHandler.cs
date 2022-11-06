@@ -72,7 +72,6 @@ namespace Platformer3D
 
             if (isAnyObject)
             {
-                Debug.Log(hit.transform.gameObject.name);
                 float targetToHitDistance = (hit.point - (m_target.position + m_targetOffset)).magnitude;
                 if (targetToHitDistance < Mathf.Abs(m_cameraDefaultDepth))
                 {

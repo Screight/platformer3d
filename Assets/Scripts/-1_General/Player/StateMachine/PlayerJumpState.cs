@@ -10,12 +10,14 @@ namespace Platformer3D.Player
         #region Jump
 
         JumpInfo[] m_jumpInfoArray;
+        float m_jumpSeed;
 
         #endregion
 
         public PlayerJumpState(PlayerController p_controller, StateMachine p_stateMachine, ANIMATIONS p_animation) : base(p_controller, p_stateMachine, p_animation)
         {
             m_name = "Jump State";
+            m_internalName = "player_jump_state";
 
             m_jumpInfoArray = new JumpInfo[3];
 
@@ -39,11 +41,22 @@ namespace Platformer3D.Player
         {
             base.Enter(p_changeToDefaultAnim);
 
-            JumpInfo jumpInfo = m_jumpInfoArray[PlayerController.JumpCount - 1];
+            int index = PlayerController.JumpCount - 1;
+            if(index < 0) { index = 1; }
+
+            JumpInfo jumpInfo = m_jumpInfoArray[index];
 
             m_gravity = jumpInfo.gravity;
             m_verticalSpeed += jumpInfo.initialSpeed;
             m_controller.AnimatorHandler.PlayTargetAnimation(jumpInfo.animation);
+            m_controller.IsGroundedEnabled = false;
+            m_controller.StartCoroutine(EnableGrounded());
+        }
+
+        IEnumerator EnableGrounded()
+        {
+            yield return new WaitForSeconds(0.2f);
+            m_controller.IsGroundedEnabled = true;
         }
 
         public override void LogicUpdate()
@@ -63,6 +76,10 @@ namespace Platformer3D.Player
                 PlayerController.JumpCount = 0;
             }
         }
+
+        public void AddSpeed(float p_speed) { m_verticalSpeed += p_speed; }
+        public float VerticalSpeed { set { m_verticalSpeed = value; } }
+        public float JumpSpeed { set { m_jumpSeed = value; } }
 
     }
 }

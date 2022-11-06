@@ -13,12 +13,6 @@ namespace Platformer3D
             HandleInteraction();
         }
 
-        private void OnTriggerExit(Collider p_collider)
-        {
-            if (p_collider.tag != "Player") { return; }
-            HandleInteraction();
-        }
-
         protected abstract void HandleInteraction();
 
     }

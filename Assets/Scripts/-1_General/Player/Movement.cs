@@ -70,10 +70,10 @@ namespace Platformer3D.Player
 
             Transform playerTransform = m_controller.transform;
 
-            RaycastHit hit;
-            Physics.Raycast(playerTransform.position, -playerTransform.up, out hit, 10.0f, -1, QueryTriggerInteraction.Ignore);
+            //RaycastHit hit;
+            //Physics.Raycast(playerTransform.position, -playerTransform.up, out hit, 10.0f, -1, QueryTriggerInteraction.Ignore);
 
-            Vector3 target = Vector3.ProjectOnPlane(moveDirection, hit.normal);
+            Vector3 target = Vector3.ProjectOnPlane(moveDirection, Vector3.up);
 
             PlayerData playerData = p_playerData;
 
