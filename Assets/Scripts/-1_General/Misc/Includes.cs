@@ -5,3 +5,5 @@ public struct JumpInfo
     public float initialSpeed;
     public ANIMATIONS animation;
 }
+
+public enum OBJECT_TYPE { WALL}

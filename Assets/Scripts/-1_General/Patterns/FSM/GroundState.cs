@@ -18,7 +18,7 @@ namespace Platformer3D
         public override void LogicUpdate()
         {
             base.LogicUpdate();
-            if (!m_controller.CharacterController.isGrounded)
+            if (!m_controller.IsGrounded)
             {
                 HandleTransitionToAir();
                 return;

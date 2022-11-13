@@ -26,7 +26,9 @@ namespace Platformer3D
         {
             CalculateIsGrounded();
             m_stateMachine.CurrentState.LogicUpdate();
+
             m_characterController.Move(m_movement);
+            
             m_movement = Vector2.zero;
         }
 

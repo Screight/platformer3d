@@ -8,7 +8,8 @@ namespace Platformer3D
 {
     public class GameManager : Singleton<GameManager>
 {
-        [SerializeField] int m_coinsToWinGame = 10;
+        int m_health = 1;
+        [SerializeField] int m_coinsToWinGame = 5;
         int m_coinsCollected = 0;
 
         Player.PlayerController m_playerController;
@@ -69,6 +70,19 @@ namespace Platformer3D
             if (isNull) { return "NOT FOUND"; }
 
             return m_stateIdentifiers[p_type];
+        }
+
+        public int Health
+        {
+            get { return m_health; }
+            set
+            {
+                m_health = value;
+                if(m_health <= 0)
+                {
+                    Time.timeScale = 0;
+                }
+            }
         }
 
     }

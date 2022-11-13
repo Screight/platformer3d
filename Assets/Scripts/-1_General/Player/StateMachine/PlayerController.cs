@@ -14,7 +14,7 @@ namespace Platformer3D.Player
         PlayerFallState m_fallState;
         PlayerJumpState m_jumpState;
 
-        float m_windowToChainJumps = 0.1f;
+        float m_windowToChainJumps = 0.2f;
         float m_gravityDefault;
         int m_jumpCount = 0;
         const int MAX_NUMBER_OF_JUMPS = 3;
@@ -22,6 +22,9 @@ namespace Platformer3D.Player
 
         bool m_canRotate = true;
         bool m_canMove = true;
+
+        [SerializeField] List<Transform> m_wallJumpCheckTr;
+        [SerializeField] LayerMask m_wallCheckLayersToIgnore;
 
         #region Unity Callback Functions
         protected override void Awake()
@@ -38,8 +41,8 @@ namespace Platformer3D.Player
             m_jumpState = new PlayerJumpState(this, m_stateMachine, ANIMATIONS.JUMP);
 
             m_gravityDefault = m_playerData.gravity_1;
-
         }
+
         private void Start()
         {
             m_stateMachine.Initialize(m_fallState, true);
@@ -98,6 +101,9 @@ namespace Platformer3D.Player
             get { return m_canMove; }
             set { m_canMove = value; }
         }
+
+        public List<Transform> WallJumpCheckTr { get { return m_wallJumpCheckTr; } }
+        public LayerMask WallCheckLayersToIgnore { get { return ~m_wallCheckLayersToIgnore; } }
 
         #endregion
 

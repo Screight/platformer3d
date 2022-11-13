@@ -26,7 +26,7 @@ namespace Platformer3D
 
         public override void LogicUpdate()
         {
-            if (m_controller.CharacterController.isGrounded)
+            if (m_controller.IsGrounded)
             {
                 HandleTransitionToGround();
                 return;

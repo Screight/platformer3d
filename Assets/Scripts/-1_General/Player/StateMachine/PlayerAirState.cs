@@ -19,6 +19,20 @@ namespace Platformer3D.Player
             m_movementBehaviour = new Movement(UnityEngine.Camera.main.transform, p_controller);
         }
 
+        ~PlayerAirState()
+        {
+        }
+
+        public override void Enter(bool p_changeToDefaultAnim)
+        {
+            base.Enter(p_changeToDefaultAnim);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+        }
+
         public override void LogicUpdate()
         {
             base.LogicUpdate();

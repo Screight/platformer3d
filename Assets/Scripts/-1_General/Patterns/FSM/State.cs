@@ -14,6 +14,7 @@ namespace Platformer3D
         protected string m_name;
 
         protected bool m_isActive;
+        protected string m_internalName;
 
         public State(StateMachine p_stateMachine, Controller p_controller, string p_name, ANIMATIONS p_animation)
         {
@@ -48,10 +49,8 @@ namespace Platformer3D
         }
         public virtual void DoChecks() { }
 
-        public override string ToString()
-        {
-            return m_name;
-        }
+        public override string ToString() { return m_name; }
+        public string Identifier { get { return m_internalName; } }
 
     }
 
